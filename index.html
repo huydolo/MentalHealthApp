@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Health Support App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #e0f7fa;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .header {
+            width: 100%;
+            padding: 20px;
+            background-color: #00695c;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .contact-button {
+            background-color: #ff6f00;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .contact-button:hover {
+            background-color: #ff8f00;
+        }
+
+        .theme-selector {
+            margin-right: 20px;
+        }
+
+        .theme-selector select {
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 14px;
+            border: 1px solid #b0bec5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #004d40;
+        }
+
+        .section img {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .section ul li {
+            background-color: #b2ebf2;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .mood-tracker form {
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+        }
+
+        .mood-tracker select,
+        .mood-tracker input[type="submit"] {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #b0bec5;
+            font-size: 16px;
+        }
+
+        .mood-tracker input[type="submit"] {
+            background-color: #00838f;
+            color: white;
+            cursor: pointer;
+        }
+
+        .mood-tracker input[type="submit"]:hover {
+            background-color: #00acc1;
+        }
+
+        .chat-box {
+            width: 100%;
+            max-width: 600px;
+            background-color: #f1f8e9;
+            border: 1px solid #c5e1a5;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-box input[type="text"],
+        .chat-box input[type="submit"] {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #c5e1a5;
+            font-size: 16px;
+        }
+
+        .chat-box input[type="submit"] {
+            background-color: #8bc34a;
+            color: white;
+            cursor: pointer;
+        }
+
+        .chat-box input[type="submit"]:hover {
+            background-color: #9ccc65;
+        }
+
+        .footer {
+            margin-top: 40px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-align: center;
+        }
+
+        /* Daily Reminder Notification */
+        .reminder-notification {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #ff6f00;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .reminder-notification.show {
+            display: block;
+        }
+
+        /* Virtual Calm Room */
+        .calm-room {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 200px;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: #004d40;
+            margin-bottom: 20px;
+        }
+
+        .calm-room video {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .calm-room button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #ff6f00;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .calm-room button:hover {
+            background-color: #ff8f00;
+        }
+
+        /* Affirmations Pop-up */
+        .affirmation-popup {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #00acc1;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            font-size: 18px;
+        }
+
+        .affirmation-popup.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Theme Selector and Contact Button -->
+    <div class="header">
+        <h1>Mental Health Support</h1>
+        <div class="theme-selector">
+            <label for="themeSelect">Choose Theme:</label>
+            <select id="themeSelect">
+                <option value="default">Default</option>
+                <option value="blue">Soothing Blue</option>
+                <option value="green">Calming Green</option>
+                <option value="purple">Peaceful Purple</option>
+                <option value="pink">Warm Pink</option>
+            </select>
+        </div>
+        <a href="https://www.facebook.com/profile.php?id=100009890620171" class="contact-button">Contact</a>
+    </div>
+
+    <div class="container">
+        <!-- Daily Affirmation Section -->
+        <div id="affirmationPopup" class="affirmation-popup"></div>
+
+        <!-- Mindfulness Exercises Section -->
+        <div class="section">
+            <h2>Mindfulness Exercises</h2>
+            <img src="https://www.helpguide.org/wp-content/uploads/young-woman-meditating-on-rock-in-ocean.jpg" alt="Mindfulness Meditation">
+            <ul>
+                <li>Breathing Exercise: Inhale deeply for 4 seconds, hold for 7 seconds, exhale for 8 seconds. Repeat 5 times.</li>
+                <li>Body Scan: Close your eyes and focus on each part of your body from head to toe. Release any tension you feel.</li>
+                <li>Gratitude Journaling: Write down 3 things you are grateful for today.</li>
+                <li>Mindful Walking: Take a slow walk and pay attention to your surroundings, the sounds, and your breathing.</li>
+            </ul>
+        </div>
+
+        <!-- Virtual Calm Room Section -->
+        <div class="section">
+            <h2>Virtual Calm Room</h2>
+            <div class="calm-room">
+                <video id="calmVideo" src="https://www.w3schools.com/howto/rain.mp4" controls></video>
+                <button onclick="playCalmVideo()">Relax</button>
+            </div>
+        </div>
+
+        <!-- Mood Tracking Section -->
+        <div class="section mood-tracker">
+            <h2>Track Your Mood</h2>
+            <form id="moodForm">
+                <label for="mood">How are you feeling today?</label>
+                <select id="mood" required>
+                    <option value="happy">Happy 😊</option>
+                    <option value="sad">Sad 😢</option>
+                    <option value="stressed">Stressed 😟</option>
+                    <option value="anxious">Anxious 😰</option>
+                    <option value="calm">Calm 😌</option>
+                </select>
+                <input type="submit" value="Save Mood">
+            </form>
+            <div id="moodHistory">
+                <h3>Your Mood History:</h3>
+                <ul id="moodList"></ul>
+            </div>
+        </div>
+
+        <!-- Anonymous Peer Support Section -->
+        <div class="section">
+            <h2>Anonymous Peer Support</h2>
+            <div class="chat-box">
+                <div id="chatMessages" style="height: 150px; overflow-y: scroll; margin-bottom: 10px;"></div>
+                <input type="text" id="chatInput" placeholder="Type your message..." required>
+                <input type="submit" id="chatSubmit" value="Send">
+            </div>
+        </div>
+
+        <!-- Resources Section -->
+        <div class="section resources">
+            <h2>Mental Health Resources</h2>
+            <ul>
+                <li><a href="https://www.mentalhealth.gov/" target="_blank">MentalHealth.gov</a></li>
+                <li><a href="https://www.nami.org/Home" target="_blank">National Alliance on Mental Illness (NAMI)</a></li>
+                <li><a href="https://www.crisistextline.org/" target="_blank">Crisis Text Line</a></li>
+                <li><a href="https://www.samhsa.gov/find-help/national-helpline" target="_blank">SAMHSA National Helpline</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        Made by Vuong Tuan Huy
+    </div>
+
+    <!-- Reminder Notification -->
+    <div class="reminder-notification" id="reminderNotification">
+        Remember to check in with your mood today!
+    </div>
+
+    <script>
+        // Affirmations Data
+        const affirmations = [
+            "You are stronger than you think.",
+            "Believe in yourself, you are capable of great things.",
+            "You have the power to create change.",
+            "Today is a new day, full of possibilities.",
+            "You are worthy of love and respect."
+        ];
+
+        // Display Daily Affirmation
+        function showDailyAffirmation() {
+            const randomAffirmation = affirmations[Math.floor(Math.random() * affirmations.length)];
+            const affirmationPopup = document.getElementById('affirmationPopup');
+            affirmationPopup.textContent = randomAffirmation;
+            affirmationPopup.classList.add('show');
+            setTimeout(() => {
+                affirmationPopup.classList.remove('show');
+            }, 5000); // Hide after 5 seconds
+        }
+
+        // Handle Mood Tracking
+        const moodForm = document.getElementById('moodForm');
+        const moodList = document.getElementById('moodList');
+        const moodHistory = JSON.parse(localStorage.getItem('moodHistory')) || [];
+
+        function updateMoodList() {
+            moodList.innerHTML = '';
+            moodHistory.forEach(mood => {
+                const li = document.createElement('li');
+                li.textContent = `${mood.date}: ${mood.mood}`;
+                moodList.appendChild(li);
+            });
+        }
+
+        moodForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const mood = document.getElementById('mood').value;
+            const date = new Date().toLocaleDateString();
+            moodHistory.push({ mood, date });
+            localStorage.setItem('moodHistory', JSON.stringify(moodHistory));
+            updateMoodList();
+        });
+
+        // Initialize the Mood List
+        updateMoodList();
+
+        // Virtual Calm Room: Play Video
+        function playCalmVideo() {
+            const calmVideo = document.getElementById('calmVideo');
+            calmVideo.play();
+        }
+
+        // Anonymous Peer Support Chat
+        const chatSubmit = document.getElementById('chatSubmit');
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+
+        chatSubmit.addEventListener('click', () => {
+            const message = chatInput.value.trim();
+            if (message) {
+                const p = document.createElement('p');
+                p.textContent = message;
+                chatMessages.appendChild(p);
+                chatInput.value = '';
+                chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll to bottom
+            }
+        });
+
+        // Theme Selector
+        const themeSelect = document.getElementById('themeSelect');
+
+        themeSelect.addEventListener('change', (e) => {
+            const theme = e.target.value;
+            switch (theme) {
+                case 'blue':
+                    document.body.style.backgroundColor = '#e0f7fa';
+                    break;
+                case 'green':
+                    document.body.style.backgroundColor = '#e8f5e9';
+                    break;
+                case 'purple':
+                    document.body.style.backgroundColor = '#f3e5f5';
+                    break;
+                case 'pink':
+                    document.body.style.backgroundColor = '#fce4ec';
+                    break;
+                default:
+                    document.body.style.backgroundColor = '#ffffff';
+                    break;
+            }
+        });
+
+        // Daily Reminder Notification
+        function showReminder() {
+            const reminderNotification = document.getElementById('reminderNotification');
+            reminderNotification.classList.add('show');
+            setTimeout(() => {
+                reminderNotification.classList.remove('show');
+            }, 7000); // Hide after 7 seconds
+        }
+
+        // Show Affirmation and Reminder on Load
+        window.onload = function() {
+            showDailyAffirmation();
+            setTimeout(showReminder, 3000); // Show reminder after 3 seconds
+        };
+    </script>
+</body>
+</html>
+
